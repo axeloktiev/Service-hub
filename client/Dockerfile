@@ -1,10 +1,20 @@
-FROM node:14-buster-slim as dev
+# ---- Base  ----
+FROM node:14-buster-slim as base
 
 WORKDIR /app
 
 COPY package.json /app/
 
+# ---- Dependencies ----
+FROM base AS dependencies
+
 RUN yarn install
+
+# ---- Release ----
+
+FROM base as release
+
+COPY --from=dependencies /app/node_modules ./node_modules
 
 COPY ./ /app
 
