@@ -1,0 +1,10 @@
+version: "3"
+services:
+  nextjs-ui-prod:
+    build:
+      context: ./client
+    ports:
+      - "3000:3000"
+    container_name: nextjs-ui-prod
+    command: yarn start:client
+    working_dir: /app
