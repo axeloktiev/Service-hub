@@ -3,9 +3,9 @@ name: docker-compose-actions-workflow
 on: push
 
 jobs:
-  test:
+  docker:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build the stack
-        run: docker-compose up -d
+        run: yarn dev:up
