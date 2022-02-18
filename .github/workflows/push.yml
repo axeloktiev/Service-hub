@@ -35,6 +35,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
+          directory: /app
           context: ./client
           file: ./Dockerfile
           push: true
