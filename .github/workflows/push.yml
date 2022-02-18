@@ -28,7 +28,7 @@ jobs:
       - name: Install Dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: |
-          yarn -cwd ./client install 
+          yarn --modules-folder ./client install 
 
   docker-run:
     needs: client-dependencies
