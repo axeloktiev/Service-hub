@@ -53,7 +53,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Client build
-        run: yarn --cwd ./client build
+        run: yarn --modules-folder ./client build
 
 
   client-lighthouse:
