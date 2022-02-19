@@ -45,9 +45,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: axeloktiev/services-hub@master
 
       - name: Run Linter
-        uses: axeloktiev/services-hub@master
         run: yarn lint
 
   client-build:
