@@ -2,6 +2,10 @@ name: docker-compose-actions-workflow
 
 on: push
 
+defaults:
+  run:
+    working-directory: ./client
+
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -15,9 +19,6 @@ jobs:
   client-dependencies:
     needs: setup
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./client
     steps:
       - uses: actions/checkout@v2
 
@@ -35,9 +36,6 @@ jobs:
   client-linter:
     needs: [setup, client-dependencies]
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./client
     steps:
       - uses: actions/checkout@v2
 
@@ -55,9 +53,6 @@ jobs:
   client-build:
     needs: [setup, client-dependencies]
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./client
     steps:
       - uses: actions/checkout@v2
 
