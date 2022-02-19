@@ -18,19 +18,28 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Restore cached Node Modules
+      - name: Cache Node Modules
         id: cache-node-modules
         uses: actions/cache@v2
         with:
           path: node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v13.1
+      - name: List all changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
+
       - name: Install Dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn --modules-folder ./client install
 
   client-linter:
-    needs: client-dependencies
+    needs: [setup, client-dependencies]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -47,7 +56,7 @@ jobs:
         run: yarn --cwd ./client lint
 
   client-build:
-    needs: client-dependencies
+    needs: [setup, client-dependencies]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -62,19 +71,18 @@ jobs:
       - name: Client build
         run: yarn --cwd ./client build
 
-
-  client-lighthouse:
-    needs: client-build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Run Lighthouse CI
-        run: |
-            yarn global add @lhci/cli@0.3.x
-            lhci autorun
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+#  client-lighthouse:
+#    needs: [client-dependencies, client-build]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Run Lighthouse CI
+#        run: |
+#            yarn global add @lhci/cli@0.3.x
+#            lhci autorun
+#        env:
+#          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
   docker-run:
     needs: client-dependencies
