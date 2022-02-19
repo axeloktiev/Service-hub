@@ -15,11 +15,13 @@ jobs:
   client-dependencies:
     needs: setup
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
     steps:
       - uses: actions/checkout@v2
 
       - name: Install Dependencies
-        working-directory: ./client
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
 
@@ -33,6 +35,9 @@ jobs:
   client-linter:
     needs: [setup, client-dependencies]
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
     steps:
       - uses: actions/checkout@v2
 
@@ -50,6 +55,9 @@ jobs:
   client-build:
     needs: [setup, client-dependencies]
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
     steps:
       - uses: actions/checkout@v2
 
@@ -61,7 +69,6 @@ jobs:
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Client build
-        working-directory: ./client
         run: yarn build
 
 #  client-lighthouse:
