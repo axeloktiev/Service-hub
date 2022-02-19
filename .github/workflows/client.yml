@@ -10,7 +10,7 @@ jobs:
       - name: Use Node.js 16
         uses: actions/setup-node@v2
         with:
-          node-version: 16:latest
+          node-version: 16
 
   client-dependencies:
     needs: setup
