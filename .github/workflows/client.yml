@@ -38,7 +38,7 @@ jobs:
         with:
           name: dependencies
           if-no-files-found: error
-          path: dependencies
+          path: node_modules
 
   client-linter:
     needs: [setup, client-dependencies]
@@ -72,7 +72,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dependencies
-          path: dependencies
+          path: node_modules
 
       - name: Client build
         run: yarn build
