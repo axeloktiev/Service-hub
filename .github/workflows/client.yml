@@ -58,7 +58,6 @@ jobs:
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
       #        TODO: make a separate action
-      -
       - name: Run Linter
         run: yarn lint
 
