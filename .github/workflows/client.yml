@@ -33,12 +33,12 @@ jobs:
           path: node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
-      - name: Save build folder
+      - name: Save dependencies folder
         uses: actions/upload-artifact@v2
         with:
           name: dependencies
           if-no-files-found: error
-          path: node_modules
+          path: ./client/node_modules
 
   client-linter:
     needs: [setup, client-dependencies]
