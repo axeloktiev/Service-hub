@@ -52,7 +52,6 @@ jobs:
           key: node-modules-${{ hashFiles('./client/yarn.lock') }}
 
       - name: Run Linter
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn --cwd ./client lint
 
   client-build:
