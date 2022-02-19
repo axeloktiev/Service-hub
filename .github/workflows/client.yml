@@ -30,7 +30,7 @@ jobs:
           key: node-modules-${{ hashFiles('./client/yarn.lock') }}
 
       - name: Client build
-        run: dev:build
+        run: yarn dev:build
 
   client-linter:
     needs: [setup, client-dependencies]
