@@ -33,12 +33,15 @@ jobs:
           path: node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
+      - name: Client build
+        run: yarn build
+
       - name: Save dependencies folder
         uses: actions/upload-artifact@v2
         with:
-          name: dependencies
+          name: build
           if-no-files-found: error
-          path: ./client/node_modules
+          path: ./client/.next
 
   client-linter:
     needs: [setup, client-dependencies]
@@ -48,6 +51,12 @@ jobs:
         working-directory: ./client
     steps:
       - uses: actions/checkout@v2
+
+      - name: Download the build folders
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: ./client/.next
 
       - name: Restore cached Node Modules
         id: cache-node-modules
@@ -59,23 +68,23 @@ jobs:
       - name: Run Linter
         run: yarn lint
 
-  client-build:
-    needs: client-dependencies
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./client
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Download the build folders
-        uses: actions/download-artifact@v2
-        with:
-          name: dependencies
-          path: ./client/node_modules
-
-      - name: Client build
-        run: yarn build
+#  client-build:
+#    needs: client-dependencies
+#    runs-on: ubuntu-latest
+#    defaults:
+#      run:
+#        working-directory: ./client
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Download the build folders
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: dependencies
+#          path: ./client/node_modules
+#
+#      - name: Client build
+#        run: yarn build
 
   docker-run:
     needs: client-dependencies
