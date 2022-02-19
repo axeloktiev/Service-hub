@@ -30,7 +30,9 @@ jobs:
           key: node-modules-${{ hashFiles('./client/yarn.lock') }}
 
       - name: Run Linter
-        run: yarn --cwd ./client lint
+        run: |
+          console.log(__dirname)
+        yarn --cwd ./client lint
 
   client-linter:
     needs: [setup, client-dependencies]
