@@ -2,9 +2,6 @@ name: docker-compose-actions-workflow
 
 on: push
 
-defaults:
-  run:
-    working-directory: ./client
 
 jobs:
   setup:
@@ -19,6 +16,9 @@ jobs:
   client-dependencies:
     needs: setup
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
     steps:
       - uses: actions/checkout@v2
 
@@ -33,9 +33,15 @@ jobs:
           path: node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
+      - name: Temp
+        run: yarn build
+
   client-linter:
     needs: [setup, client-dependencies]
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
     steps:
       - uses: actions/checkout@v2
 
@@ -47,7 +53,6 @@ jobs:
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Run Linter
-        working-directory: ./client
         run: yarn lint
 
   client-build:
