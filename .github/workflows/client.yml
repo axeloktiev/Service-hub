@@ -21,7 +21,7 @@ jobs:
       - name: Install Dependencies
         working-directory: ./client
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: yarn --modules-folder client install --frozen-lockfile
+        run: yarn install --frozen-lockfile
 
       - name: Cache Node Modules
         id: cache-node-modules
