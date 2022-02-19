@@ -5,7 +5,7 @@
   "scripts": {
     "dev:client": "yarn --cwd ./client next dev",
     "dev:lint": "yarn --cwd ./client next lint",
-    "dev:build": "yarn --cwd ./client next build",
+    "dev:build": "yarn --cwd ./client build",
     "start:client": "yarn --cwd ./client next build && yarn --cwd ./client next start",
     "dev:up": "docker-compose -f docker-compose.dev.yml up",
     "prod:up": "docker-compose -f docker-compose.prod.yml up"
