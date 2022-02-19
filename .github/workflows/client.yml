@@ -10,7 +10,7 @@ jobs:
       - name: Use Node.js 16
         uses: actions/setup-node@v2
         with:
-          node-version: 16
+          node-version: 16:latest
 
   client-dependencies:
     needs: setup
@@ -30,10 +30,6 @@ jobs:
           path: node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
-      - name: Client build
-        working-directory: ./client
-        run: yarn build
-
   client-linter:
     needs: [setup, client-dependencies]
     runs-on: ubuntu-latest
@@ -44,11 +40,12 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: ./client/node_modules
-          key: node-modules-${{ hashFiles('./client/yarn.lock') }}
+          path: node_modules
+          key: node-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Run Linter
-        run: yarn dev:lint
+        working-directory: ./client
+        run: yarn lint
 
   client-build:
     needs: [setup, client-dependencies]
@@ -60,11 +57,12 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: ~/client/node_modules
-          key: node-modules-${{ hashFiles('~/client/yarn.lock') }}
+          path: node_modules
+          key: node-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Client build
-        run: yarn --cwd ./client build
+        working-directory: ./client
+        run: yarn build
 
 #  client-lighthouse:
 #    needs: [client-dependencies, client-build]
