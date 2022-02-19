@@ -31,7 +31,7 @@ jobs:
 
       - name: Run Linter
         run: |
-          console.log(__dirname);
+          ${{__dirname}}
           yarn --cwd ./client lint
 
   client-linter:
