@@ -22,8 +22,8 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: node_modules
-          key: node-modules-${{ hashFiles('yarn.lock') }}
+          path: ./client/node_modules
+          key: node-modules-${{ hashFiles('./client/yarn.lock') }}
 
 #      - name: Get changed files
 #        id: changed-files
@@ -49,9 +49,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: node-modules-${{ hashFiles('yarn.lock') }}
+          key: node-modules-${{ hashFiles('./client/yarn.lock') }}
 
-      - name: Install Dependencies
+      - name: Run Linter
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn --cwd ./client lint
 
@@ -66,7 +66,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: node-modules-${{ hashFiles('yarn.lock') }}
+          key: node-modules-${{ hashFiles('./client/yarn.lock') }}
 
       - name: Client build
         run: yarn --cwd ./client build
