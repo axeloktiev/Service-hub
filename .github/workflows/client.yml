@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 16
 
-  client-dependencies:
+ dependencies:
     needs: setup
     runs-on: ubuntu-latest
     defaults:
@@ -32,16 +32,34 @@ jobs:
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
-#        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: |
-          yarn install --frozen-lockfile    
+          yarn install  
 
-      - name: Run Linter
-        run: |
-          yarn lint
+#  client-linter:
+#    needs: client-dependencies
+#    runs-on: ubuntu-latest
+#    defaults:
+#      run:
+#        working-directory: ./client
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Cache Node Modules
+#        id: cache-node-modules
+#        uses: actions/cache@v2
+#        with:
+#          path: node_modules
+#          key: node-modules-${{ hashFiles('yarn.lock') }}
+#          yarn install --frozen-lockfile
+#
+#      - name: Run Linter
+#        run: yarn lint
+#
 
-  client-linter:
-    needs: [setup, client-dependencies]
+ build:
+    needs: dependencies
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -55,44 +73,14 @@ jobs:
         with:
           path: node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
-
-      - name: Install Dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: |
-          yarn install --frozen-lockfile    
-
-      - name: Run Linter
-        run: |
-          yarn lint
-
-  client-build:
-    needs: client-dependencies
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./client
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Cache Node Modules
-        id: cache-node-modules
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: node-modules-${{ hashFiles('yarn.lock') }}
-
-      - name: Install Dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: |
-          yarn install --frozen-lockfile    
 
       - name: Client build
         run: yarn build
 
-  docker-run:
-    needs: client-dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build the stack
-        run: yarn dev:up
+#  docker-run:
+#    needs: client-dependencies
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Build the stack
+#        run: yarn dev:up
