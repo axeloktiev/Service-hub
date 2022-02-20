@@ -52,13 +52,6 @@ jobs:
           path: ./client/node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
-      - name: Cache build
-        id: cache-build
-        uses: actions/cache@v2
-        with:
-          path: ./client/.next
-          key: build-${{ hashFiles('**/client/**/src/**') }}
-
       - name: Client build
         if: steps.cache-build.outputs.cache-hit != 'true'
         run: yarn build
