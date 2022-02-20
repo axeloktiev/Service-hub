@@ -39,7 +39,7 @@ jobs:
       - name: Files
         run: |
           ls 
-          cd ../ ls 
+          echo cd ../ ls 
 
   client-linter:
     needs: [setup, client-dependencies]
