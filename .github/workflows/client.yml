@@ -34,8 +34,11 @@ jobs:
       - name: Install Dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: |
+          yarn install --frozen-lockfile    
+
+      - name: Files
+        run: |
           ls -a
-          yarn install --frozen-lockfile       
 
   client-linter:
     needs: [setup, client-dependencies]
