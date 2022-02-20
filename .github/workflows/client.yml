@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 16
 
- dependencies:
+ packages:
     needs: setup
     runs-on: ubuntu-latest
     defaults:
@@ -58,8 +58,9 @@ jobs:
 #        run: yarn lint
 #
 
+
  build:
-    needs: dependencies
+    needs: packages
     runs-on: ubuntu-latest
     defaults:
       run:
