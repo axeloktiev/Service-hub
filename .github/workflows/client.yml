@@ -83,7 +83,6 @@ jobs:
         run: yarn lint
 
   client-docker-run:
-    needs: client-dependencies
     runs-on: ubuntu-latest
 
     steps:
