@@ -45,10 +45,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: axeloktiev/services-hub@main
 
       - name: Run Linter
-        run: yarn lint
+        run: |
+          echo ${{__dirname}}
+          yarn lint
 
   client-build:
     needs: client-dependencies
