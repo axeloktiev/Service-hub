@@ -59,6 +59,7 @@ jobs:
       - name: Run Linter
         run: |
           ls 
+          cd ../ ls 
           yarn lint
 
   client-build:
