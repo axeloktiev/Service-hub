@@ -25,7 +25,9 @@ jobs:
       #        TODO: make a separate action
       - name: Install Dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
+        run: |
+          ls 
+          yarn install --frozen-lockfile
 
       - name: Cache Node Modules
         id: cache-node-modules
@@ -54,7 +56,6 @@ jobs:
 
       - name: Run Linter
         run: |
-          ls 
           yarn lint
 
   client-build:
