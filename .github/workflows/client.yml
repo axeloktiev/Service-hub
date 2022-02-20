@@ -34,8 +34,6 @@ jobs:
         run: |
           yarn install  
 
-
-
   client-build:
     needs: client-dependencies
     runs-on: ubuntu-latest
@@ -51,6 +49,13 @@ jobs:
         with:
           path: ./client/node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
+
+      - name: Cache build
+        id: cache-build
+        uses: actions/cache@v2
+        with:
+          path: ./client/.next
+          key: build-${{ hashFiles('**/client/**/src/**') }}
 
       - name: Client build
         if: steps.cache-build.outputs.cache-hit != 'true'
@@ -72,13 +77,6 @@ jobs:
         with:
           path: ./client/node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
-
-      - name: Cache build
-        id: cache-build
-        uses: actions/cache@v2
-        with:
-          path: ./client/.next
-          key: build-${{ hashFiles('**/client/**/src/**') }}
 
       - name: Run Linter
         run: yarn lint
