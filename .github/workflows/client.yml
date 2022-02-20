@@ -36,11 +36,6 @@ jobs:
         run: |
           yarn install --frozen-lockfile    
 
-      - name: Files
-        run: |
-          ls 
-          echo cd ../ ls 
-
   client-linter:
     needs: [setup, client-dependencies]
     runs-on: ubuntu-latest
@@ -57,10 +52,12 @@ jobs:
           path: node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
-      - name: Run Linter
+      - name: Files
         run: |
           ls 
-          cd ../ ls 
+
+      - name: Run Linter
+        run: |
           yarn lint
 
   client-build:
