@@ -45,10 +45,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Cache restore
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Run Linter
         run: |
-          echo ${{__dirname}}
+          ls 
           yarn lint
 
   client-build:
