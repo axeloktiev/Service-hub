@@ -45,16 +45,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cache restore
+      - name: Cache Node Modules
         id: cache-node-modules
         uses: actions/cache@v2
         with:
           path: node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
-      - name: Files
+      - name: Install Dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: |
-          ls 
+          yarn install --frozen-lockfile    
 
       - name: Run Linter
         run: |
@@ -69,11 +70,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-#        TODO: make a separate action
-      - name: Install Dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
-
       - name: Cache Node Modules
         id: cache-node-modules
         uses: actions/cache@v2
@@ -81,7 +77,11 @@ jobs:
           path: node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
-#        TODO: make a separate action
+      - name: Install Dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: |
+          yarn install --frozen-lockfile    
+
       - name: Client build
         run: yarn build
 
