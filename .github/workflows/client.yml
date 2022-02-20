@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 16
 
- packages:
+  client-dependencies:
     needs: setup
     runs-on: ubuntu-latest
     defaults:
@@ -28,7 +28,7 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: node_modules
+          path: ./client/node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
@@ -58,9 +58,8 @@ jobs:
 #        run: yarn lint
 #
 
-
  build:
-    needs: packages
+    needs: client-dependencies
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -72,7 +71,7 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: node_modules
+          path: ./client/node_modules
           key: node-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Client build
