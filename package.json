@@ -1,6 +1,6 @@
 {
-  "name": "docker",
-  "version": "1.0.0",
+  "name": "services-hub",
+  "version": "1.0.1",
   "license": "MIT",
   "scripts": {
     "dev:client": "yarn --cwd ./client next dev",
