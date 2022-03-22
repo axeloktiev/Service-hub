@@ -1,5 +1,5 @@
 # ---- Base  ----
-FROM node:14-buster-slim as base
+FROM node:14-buster-slim
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ RUN yarn install
 
 # ---- Release ----
 
-FROM base as release
+FROM base
 
 COPY --from=dependencies /app/node_modules ./node_modules
 
@@ -20,4 +20,4 @@ COPY ./ /app
 
 EXPOSE 3000
 
-CMD ["yarn", "run", "dev"]
+CMD ["yarn", "run", "start"]
