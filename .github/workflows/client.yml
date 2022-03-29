@@ -100,7 +100,7 @@ jobs:
           appdir: "./client"
           heroku_app_name: "services-hub-app"
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          usedocker: true
+          justlogin: true
 
       - name: "Login to heroku registry"
         run: heroku container:login
