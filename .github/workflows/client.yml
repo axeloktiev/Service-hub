@@ -102,13 +102,4 @@ jobs:
           heroku_app_name: services-hub-app
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          justlogin: true
-
-      - name: "Login to heroku registry"
-        run: heroku container:login
-
-      - name: "Build and push to heroku registry"
-        run: heroku container:push web --app services-hub-app
-
-      - name: "Releases the container"
-        run: heroku container:release web --app services-hub-app
+          usedocker: true
