@@ -1,5 +1,5 @@
 # ---- Base  ----
-FROM node:14-buster-slim
+FROM node:14-alpine as base
 
 WORKDIR /app
 
