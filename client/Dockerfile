@@ -20,4 +20,5 @@ COPY ./ /app
 
 EXPOSE 3000
 
+CMD ["yarn", "run", "build"]
 CMD ["yarn", "run", "start"]
