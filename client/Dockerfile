@@ -10,15 +10,32 @@ FROM base AS dependencies
 
 RUN yarn install
 
+
+# ---- Builder ----
+FROM base AS builder
+
+WORKDIR /app
+
+COPY . .
+
+COPY --from=dependencies /app/node_modules ./node_modules
+
+RUN yarn build
+
 # ---- Release ----
 
 FROM base
 
-COPY --from=dependencies /app/node_modules ./node_modules
+WORKDIR /app
 
-COPY ./ /app
+ENV NODE_ENV production
+
+COPY --from=dependencies /app/node_modules ./node_modules
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
 
-CMD ["yarn", "run", "build"]
-CMD ["yarn", "run", "start"]
+CMD ["yarn", "start"]
